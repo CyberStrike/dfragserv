@@ -38,7 +38,7 @@ app.post('/auth', function(req, res) {
 
     var auth = pusher.auth(socketId, channel, channelData);
 
-    res.send( auth );
+    res.send( {'Test':'test'} );
     console.log(socketId, channel, channelData, auth);
 });
 
