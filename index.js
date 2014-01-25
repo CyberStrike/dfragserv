@@ -26,11 +26,6 @@ app.get('/', function(req, res) {
 });
 
 app.post('/auth', function(req, res) {
-
-    var socketId = req.body.socket_id;
-    var channel = req.body.channel_name;
-    var auth = pusher.auth( socketId, channel );
-
     var channelData = {
         user_id: '1',
         user_info: {
@@ -38,10 +33,13 @@ app.post('/auth', function(req, res) {
             twitter_id: '@leggetter'
         }
     };
+    var socketId = req.body.socket_id;
+    var channel = req.body.channel_name;
+
     var auth = pusher.auth(socketId, channel, channelData);
 
     res.send( auth );
-
+    console.log(socketId, channel, channelData, auth);
 });
 
 var port = Number(process.env.PORT || 5000);
