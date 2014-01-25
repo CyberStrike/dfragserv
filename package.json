@@ -18,6 +18,7 @@
   "homepage": "https://github.com/CyberStrike/dfragserv",
   "dependencies": {
     "logfmt": "~0.18.1",
-    "express": "~3.4.8"
+    "express": "~3.4.8",
+    "pusher": ""
   }
 }
