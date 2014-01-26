@@ -2,6 +2,7 @@
 var express = require("express");
 var logfmt = require("logfmt");
 var Pusher = require("pusher");
+var debug = require('debug')('http')
 var app = express();
 
 var pusher = new Pusher({
@@ -10,11 +11,12 @@ var pusher = new Pusher({
     secret: 'e8e70748d47475f9b50d'
 });
 
+app.use(express.json());
+app.use(express.urlencoded());
+app.use(logfmt.requestLogger());
 
-app.use( logfmt.requestLogger() );
-app.use( express.bodyParser() );
 
-
+//index
 app.get('/', function(req, res) {
   res.send('Hello World!');
 
@@ -25,21 +27,14 @@ app.get('/', function(req, res) {
       });
 });
 
+//auth
+
 app.post('/auth', function(req, res) {
-    var channelData = {
-        user_id: '1',
-        user_info: {
-            name: 'Ash Ketchum',
-            twitter_id: '@leggetter'
-        }
-    };
     var socketId = req.body.socket_id;
     var channel = req.body.channel_name;
-
+    var channelData = {user_id: '1', user_info: { name: 'Ash Ketchum', twitter_id: '@pusher'}};
     var auth = pusher.auth(socketId, channel, channelData);
-
-    res.send( {'Test':'test'} );
-    console.log(socketId, channel, channelData, auth);
+    res.send( auth );
 });
 
 var port = Number(process.env.PORT || 5000);
